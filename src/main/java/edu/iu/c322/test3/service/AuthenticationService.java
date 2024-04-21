@@ -1,17 +1,13 @@
 package edu.iu.c322.test3.service;
-
-import edu.iu.c322.test3.repository.CustomerRepository;
-import edu.iu.habahram.primesservice.model.Customer;
-import edu.iu.habahram.primesservice.repository.AuthenticationDBRepository;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
-
+import edu.iu.c322.test3.model.Customer;
+import edu.iu.c322.test3.repository.CustomerRepository;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 @Service
 public class AuthenticationService implements
         IAuthenticationService , UserDetailsService {
@@ -23,13 +19,6 @@ public class AuthenticationService implements
         this.customerRepository = customerRepository;
     }
 
-    @Override
-    public Customer register(Customer customer) throws IOException {
-        BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-        String passwordEncoded = bc.encode(customer.getPassword());
-        customer.setPassword(passwordEncoded);
-        return customerRepository.save(customer);
-    }
 
     @Override
     public boolean login(String username, String password) throws IOException {
@@ -45,13 +34,22 @@ public class AuthenticationService implements
     }
 
 
-
+    @Override
+    public Customer register(Customer customer) throws IOException {
+        BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
+        String passwordEncoded = bc.encode(customer.getPassword());
+        customer.setPassword(passwordEncoded);
+        boolean success = customerRepository.save(customer);
+        if (success) {
+            return customer;
+        }
+        return null;
+    }
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         try {
-            Customer customer =
-                    authenticationRepository.findByUsername(username);
+            Customer customer = customerRepository.findByUsername(username);
             if(customer == null) {
                 throw new UsernameNotFoundException("");
             }

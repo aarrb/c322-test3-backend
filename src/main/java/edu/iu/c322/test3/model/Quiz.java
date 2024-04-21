@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Quiz {
 
+    //declarations
     private Integer id;
     private String title;
     private List<Integer> questionIds;
@@ -14,6 +15,7 @@ public class Quiz {
     public Quiz(Integer id, String quizTitle, List<Integer> questionIds) {
         this.id = id;
         this.title = quizTitle;
+
         this.questionIds = questionIds;
     }
 
@@ -22,12 +24,14 @@ public class Quiz {
         String line = String.format("%1s,%2s, %3s",
                 quizId,
                 getTitle(),
-                              questionIds);
+                questionIds);
         return line;
     }
 
     public static Quiz fromLine(String line) {
+
         String[] tokens = line.split(",");
+
         List<Integer> ids = Arrays.stream(Arrays.copyOfRange(tokens, 2, tokens.length))
                 .map(x -> Integer.valueOf(x.trim())).toList();
         Quiz q = new Quiz(Integer.valueOf(tokens[0]),
@@ -36,17 +40,21 @@ public class Quiz {
         return q;
     }
 
+    //methods
     public Integer getId() {
         return id;
     }
+
 
     public void setId(Integer id) {
         this.id = id;
     }
 
+
     public String getTitle() {
         return title;
     }
+
 
     public void setTitle(String title) {
         this.title = title;

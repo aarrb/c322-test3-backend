@@ -1,10 +1,14 @@
 package edu.iu.c322.test3.service;
 
-import edu.iu.habahram.primesservice.model.Customer;
+import edu.iu.c322.test3.model.Customer;
 
 import java.io.IOException;
 
+//the interface
 public interface IAuthenticationService {
+
     Customer register(Customer customer) throws IOException;
+
+
     boolean login(String username, String password) throws IOException;
 }

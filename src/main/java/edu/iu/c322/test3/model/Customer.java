@@ -1,15 +1,11 @@
 package edu.iu.c322.test3.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
 
 public class Customer {
 
+    //variables
     private String username;
     private String password;
-
     private String email;
 
     public Customer() {
@@ -18,10 +14,13 @@ public class Customer {
 
     public Customer(String username, String password, String email) {
         this.username = username;
+
         this.password = password;
+
         this.email = email;
     }
 
+    //getters and setters
     public String getUsername() {
         return username;
     }
